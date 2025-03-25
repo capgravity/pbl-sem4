@@ -13,7 +13,7 @@ const Hero = () => {
               Save time, reduce costs, and improve customer satisfaction with our advanced route optimization platform.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <Link to="/dashboard" className="px-8 py-3 bg-white text-primary-700 font-medium rounded-md hover:bg-primary-50 transition-colors text-center">
+              <Link to="/login" className="px-8 py-3 bg-white text-primary-700 font-medium rounded-md hover:bg-primary-50 transition-colors text-center">
                 Get Started
               </Link>
               <Link to="/features" className="px-8 py-3 bg-transparent border border-white text-white font-medium rounded-md hover:bg-primary-700 transition-colors text-center">

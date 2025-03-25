@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { FaTruck, FaRoute, FaMapMarkedAlt, FaChartBar, FaUsers, FaCog } from 'react-icons/fa'
+import RandomMap from '../components/RandomMap'
+import RoutesPage from '../components/RoutesPage'
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview')
 
   return (
-    <div className="min-h-screen bg-secondary-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="flex flex-col md:flex-row">
@@ -66,15 +68,15 @@ const Dashboard = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow border border-secondary-200">
                       <h3 className="text-lg font-semibold text-secondary-700 mb-2">Active Routes</h3>
-                      <p className="text-3xl font-bold text-primary-600">24</p>
+                      <p className="text-3xl font-bold text-primary-600">69</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow border border-secondary-200">
                       <h3 className="text-lg font-semibold text-secondary-700 mb-2">Vehicles on Road</h3>
-                      <p className="text-3xl font-bold text-primary-600">18</p>
+                      <p className="text-3xl font-bold text-primary-600">69</p>
                     </div>
                     <div className="bg-white p-6 rounded-lg shadow border border-secondary-200">
                       <h3 className="text-lg font-semibold text-secondary-700 mb-2">Deliveries Today</h3>
-                      <p className="text-3xl font-bold text-primary-600">156</p>
+                      <p className="text-3xl font-bold text-primary-600">69</p>
                     </div>
                   </div>
                   
@@ -112,10 +114,12 @@ const Dashboard = () => {
               {activeTab === 'routes' && (
                 <div>
                   <h2 className="text-2xl font-bold mb-6">Routes</h2>
-                  <p className="text-secondary-600 mb-4">Manage and optimize your delivery routes.</p>
-                  <div className="bg-secondary-100 p-12 rounded-lg flex items-center justify-center">
-                    <p className="text-secondary-500">Routes management interface will be displayed here</p>
-                  </div>
+                  <RoutesPage
+                    onPlotRoute={(routeData) => {
+                      console.log('Route data sent to backend:', routeData)
+                      // Add logic to send `routeData` to the backend and update the map
+                    }}
+                  />
                 </div>
               )}
               
@@ -130,11 +134,11 @@ const Dashboard = () => {
               )}
               
               {activeTab === 'map' && (
-                <div>
+                <div className="h-full">
                   <h2 className="text-2xl font-bold mb-6">Map View</h2>
-                  <p className="text-secondary-600 mb-4">Interactive map of all active routes and vehicles.</p>
-                  <div className="bg-secondary-100 p-12 rounded-lg flex items-center justify-center h-96">
-                    <p className="text-secondary-500">Interactive map will be displayed here</p>
+                  <p className="text-gray-600 mb-4">Interactive map of all active routes and vehicles.</p>
+                  <div className="bg-white p-4 rounded-lg shadow-md h-[600px]">
+                    <RandomMap />
                   </div>
                 </div>
               )}
