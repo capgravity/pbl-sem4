@@ -2,10 +2,11 @@ from flask import Flask, jsonify, request
 import googlemaps
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
+import dotenv
 
 app = Flask(__name__)
 
-API_KEY = 'AIzaSyDMNGXTedPmpB0eTX3GVDQN_jgtF6Lp5E4'   
+API_KEY = dotenv.dotenv_values(".env")["API_KEY"]   
 # NUM_VEHICLES = 2  # Number of delivery vehicles available
 # DEPOT_INDEX = 0  # Starting point index in locations list
 

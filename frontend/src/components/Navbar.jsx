@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
-import viteLogo from '../assets/react.svg'
+import applogo from '../assets/applogo.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,8 +22,8 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <img src={viteLogo} alt="Vite Logo" className="h-8 w-8 mr-2" /> {/* Add the Vite logo */}
-              <span className="text-primary-600 font-bold text-xl">RouteOptimizer</span>
+              <img src={applogo} alt="App Logo" className="h-12 w-auto-object-contain mr-2" /> {/* Add the logo */}
+              
             </Link>
           </div>
           

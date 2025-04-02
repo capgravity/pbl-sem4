@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { FaUser, FaLock, FaArrowRight, FaFacebook, FaGoogle, FaGithub } from 'react-icons/fa';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
 
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,10 +22,34 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real application, you would handle authentication here
-    console.log('Login submitted:', formData);
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/login', {
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (response.data.token) {
+        // Store the token in localStorage
+        localStorage.setItem('token', response.data.token);
+        
+        // Store user info if needed
+        if (response.data.user) {
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+        }
+
+        // Redirect to dashboard or home page
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message || 
+        'Incorrect ID or Password. Please try again.'
+      );
+    }
   };
 
   return (
@@ -107,6 +134,18 @@ const Login = () => {
                 </Link>
               </div>
             </div>
+
+            {error && (
+              <div className="rounded-md bg-red-50 p-4">
+                <div className="flex justify-center">
+                  <div className="text-center">
+                    <h3 className="text-sm font-medium text-red-800">
+                      {error}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div>
               <button

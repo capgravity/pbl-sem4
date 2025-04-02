@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState,useEffect } from 'react'
+import axios from 'axios'
+import Select from "react-select";
 
 const RoutesPage = ({ onPlotRoute }) => {
   const [routes, setRoutes] = useState([]); // Store multiple routes
@@ -12,10 +13,10 @@ const RoutesPage = ({ onPlotRoute }) => {
   useEffect(() => {
     const fetchStops = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/stops"); // Replace with your API endpoint
-        console.log("hshsh");
+        const response = await axios.get('http://192.168.106.8:3000/api/stops') 
+        console.log("hshsh")
         console.log(response);
-        setStops(response.data); // Assume the API returns an array of stops
+        setStops(response.data) // Assume the API returns an array of stops
       } catch (error) {
         console.error("Error fetching stops:", error);
       } finally {
@@ -23,8 +24,9 @@ const RoutesPage = ({ onPlotRoute }) => {
       }
     };
 
-    fetchStops();
-  }, []);
+    fetchStops()
+  }, [])
+  
   const handleAddRoute = () => {
     setRoutes([...routes, { start: "", end: "", waypoints: [] }]);
   };
@@ -36,10 +38,14 @@ const RoutesPage = ({ onPlotRoute }) => {
   };
 
   const handlePlotRoute = (index) => {
-    const routeData = routes[index];
-    onPlotRoute(routeData); // Send the selected route to the backend
-    console.log("Route data sent to backend:", routeData);
-  };
+    const routeData = routes[index]
+    onPlotRoute(routeData) // Send the selected route to the backend
+    console.log('Route data sent to backend:', routeData)
+  }
+  const stopOptions = stops.map((stop) => ({
+    value: stop.stop_code,
+    label: stop.stop_name,
+  }));
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
@@ -82,27 +88,18 @@ const RoutesPage = ({ onPlotRoute }) => {
                 <div className="mt-4 space-y-4">
                   {/* Start Point Dropdown */}
                   <div>
-                    <label
-                      htmlFor={`start-${index}`}
-                      className="block text-sm font-medium text-secondary-700 mb-2"
-                    >
+                    <label className="block text-sm font-medium text-secondary-700 mb-2">
                       Start Point
                     </label>
                     <select
+                      options = {stopOptions}
                       id={`start-${index}`}
-                      value={route.start}
-                      onChange={(e) =>
-                        handleUpdateRoute(index, "start", e.target.value)
-                      }
-                      className="w-full px-4 py-2 border border-secondary-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                    >
-                      <option value="">Select Start Point</option>
-                      {stops.map((stop, stopIndex) => (
-                        <option key={stopIndex} value={stop}>
-                          {stop}
-                        </option>
-                      ))}
-                    </select>
+                      value={stopOptions.find((opt) => opt.value == route.start)}
+                      onChange={(selected) => handleUpdateRoute(index, "start", selected?.value)}
+                      isLoading={isLoading}
+                      placeholder="Search Start Point..."
+                      className="w-full"
+                    />
                   </div>
 
                   {/* End Point Dropdown */}
@@ -123,8 +120,8 @@ const RoutesPage = ({ onPlotRoute }) => {
                     >
                       <option value="">Select End Point</option>
                       {stops.map((stop, stopIndex) => (
-                        <option key={stopIndex} value={stop}>
-                          {stop}
+                        <option key={stopIndex} value={stop.stop_code}>
+                          {stop.stop_name}
                         </option>
                       ))}
                     </select>
