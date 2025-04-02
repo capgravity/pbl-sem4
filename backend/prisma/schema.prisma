@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  vehicles  Vehicle[]
+  trips     Trip[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vehicle {
+  id           Int @id @default(autoincrement())
+  licensePlate String   @unique
+  capacity     Float   
+  status       VehicleStatus @default(AVAILABLE)
+  owner        User     @relation(fields: [ownerId], references: [id])
+  ownerId      Int
+  trips        Trip[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Trip {
+  id          Int @id @default(autoincrement())
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  vehicleId   Int
+  driver      User     @relation(fields: [driverId], references: [id])
+  driverId    Int
+  stops       Json     
+  status      TripStatus @default(PLANNED)
+  startTime   DateTime?
+  endTime     DateTime?
+  optimizedRoute Json? 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  UNAVAILABLE
+  IN_TRANSIT
+}
+
+enum TripStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DELAYED
+}

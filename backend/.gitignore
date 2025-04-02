@@ -103,3 +103,5 @@ dist
 .vuepress/dist
 
 # vuepress v2.x temp and cache directory
+
+generated/prisma/
