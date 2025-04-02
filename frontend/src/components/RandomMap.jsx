@@ -12,8 +12,8 @@ function RandomMap() {
       setMapComponents({ MapContainer, TileLayer, Marker, Popup })
     })
 
-    const lat = 28.6330
-    const lng = 77.2194
+    const lat = 18.5018
+    const lng = 73.8636
     setPosition([lat, lng])
   }, [])
 
